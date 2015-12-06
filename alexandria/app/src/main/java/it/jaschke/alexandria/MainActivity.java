@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,15 +11,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import it.jaschke.alexandria.api.Callback;
-import it.jaschke.alexandria.zxing.IntentIntegrator;
-import it.jaschke.alexandria.zxing.IntentResult;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
@@ -43,12 +39,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        IS_TABLET = isTablet();
-        if(IS_TABLET){
-            setContentView(R.layout.activity_main_tablet);
-        }else {
-            setContentView(R.layout.activity_main);
-        }
+
+        setContentView(R.layout.activity_main);
 
         messageReciever = new MessageReciever();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
@@ -60,23 +52,34 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         // Set up the drawer.
         navigationDrawerFragment.setUp(R.id.navigation_drawer,
-                    (DrawerLayout) findViewById(R.id.drawer_layout));
+                (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+        // TODO: 6/12/2015 check screen about en tablet ,
+        // TODO: cambiar R.id.container, por uno doble cuando es listofbooks
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment;
+        int container = R.id.container;
+        boolean isTablet = isTablet();
 
         switch (position){
             default:
             case 0:
                 nextFragment = new ListOfBooks();
                 break;
-            case 1:
+            case 1: {
                 nextFragment = new AddBook();
+                if(isTablet && findViewById(R.id.right_container) != null){
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.right_container, new BlankFragment())
+                            .addToBackStack("blank fragment")
+                            .commit();
+                }
                 break;
+            }
             case 2:
                 nextFragment = new About();
                 break;
@@ -84,7 +87,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
 
         fragmentManager.beginTransaction()
-                .replace(R.id.container, nextFragment)
+                .replace(container, nextFragment)
                 .addToBackStack((String) title)
                 .commit();
     }
@@ -137,6 +140,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onItemSelected(String ean) {
+
         Bundle args = new Bundle();
         args.putString(BookDetail.EAN_KEY, ean);
 
@@ -168,9 +172,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
     private boolean isTablet() {
-        return (getApplicationContext().getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK)
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+        return getResources().getBoolean(R.bool.isTablet);
     }
 
     @Override
@@ -179,19 +181,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             finish();
         }
         super.onBackPressed();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String TAG = this.getClass().getSimpleName();
-
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (scanResult != null) {
-            Log.e(TAG, "scanResult bar code: " + scanResult.toString());
-        } else {
-            Log.e(TAG, "error scan result");
-        }
-
     }
 
 

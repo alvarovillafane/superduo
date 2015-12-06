@@ -6,19 +6,21 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="center_horizontal|top">
+        android:layout_gravity="center_horizontal|top"
+        android:padding="@dimen/abc_action_bar_icon_vertical_padding_material"
+        >
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:id="@+id/eancontainer"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true">
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:minEms="@integer/ean_width"
@@ -30,12 +32,21 @@
                 android:paddingRight="20dp"/>
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/abc_action_bar_subtitle_top_margin_material"
                 android:text="@string/scan_button"
                 android:id="@+id/scan_button"/>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_marginTop="4dp"
+            android:id="@+id/division_line_add_book"
+            android:layout_below="@+id/eancontainer"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,7 +57,7 @@
             android:textStyle="bold"
             android:layout_marginTop="25dp"
             android:paddingRight="20dp"
-            android:layout_below="@+id/eancontainer"
+            android:layout_below="@+id/division_line_add_book"
             android:layout_alignLeft="@+id/eancontainer"
             android:layout_alignStart="@+id/eancontainer"/>
 
