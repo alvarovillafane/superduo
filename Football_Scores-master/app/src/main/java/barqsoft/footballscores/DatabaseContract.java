@@ -10,7 +10,7 @@ import android.provider.BaseColumns;
 public class DatabaseContract
 {
     public static final String SCORES_TABLE = "scores_table";
-    public static final class scores_table implements BaseColumns
+    public static final class ScoresEntry implements BaseColumns
     {
         //Table data
         public static final String LEAGUE_COL = "league";
@@ -43,6 +43,11 @@ public class DatabaseContract
         public static Uri buildScoreWithDate()
         {
             return BASE_CONTENT_URI.buildUpon().appendPath("date").build();
+        }
+
+        public static Uri buildURIWithScore()
+        {
+            return BASE_CONTENT_URI.buildUpon().appendPath("played").build();
         }
     }
     //URI data

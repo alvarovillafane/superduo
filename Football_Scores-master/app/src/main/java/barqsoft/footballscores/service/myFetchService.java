@@ -28,12 +28,15 @@ import barqsoft.footballscores.R;
 /**
  * Created by yehya khaled on 3/2/2015.
  */
-public class myFetchService extends IntentService
+public class MyFetchService extends IntentService
 {
-    public static final String LOG_TAG = "myFetchService";
-    public myFetchService()
+    public static final String LOG_TAG = "MyFetchService";
+    public static final String ACTION_DATA_UPDATED = "barqsoft.footballscores.DATA_UPDATED";
+
+
+    public MyFetchService()
     {
-        super("myFetchService");
+        super("MyFetchService");
     }
 
     @Override
@@ -119,8 +122,8 @@ public class myFetchService extends IntentService
                     return;
                 }
 
-
                 processJSONdata(JSON_data, getApplicationContext(), true);
+                updateWidgets();
             } else {
                 //Could not Connect
                 Log.d(LOG_TAG, "Could not connect to server.");
@@ -237,15 +240,15 @@ public class myFetchService extends IntentService
                     Away_goals = match_data.getJSONObject(RESULT).getString(AWAY_GOALS);
                     match_day = match_data.getString(MATCH_DAY);
                     ContentValues match_values = new ContentValues();
-                    match_values.put(DatabaseContract.scores_table.MATCH_ID,match_id);
-                    match_values.put(DatabaseContract.scores_table.DATE_COL,mDate);
-                    match_values.put(DatabaseContract.scores_table.TIME_COL,mTime);
-                    match_values.put(DatabaseContract.scores_table.HOME_COL,Home);
-                    match_values.put(DatabaseContract.scores_table.AWAY_COL,Away);
-                    match_values.put(DatabaseContract.scores_table.HOME_GOALS_COL,Home_goals);
-                    match_values.put(DatabaseContract.scores_table.AWAY_GOALS_COL,Away_goals);
-                    match_values.put(DatabaseContract.scores_table.LEAGUE_COL,League);
-                    match_values.put(DatabaseContract.scores_table.MATCH_DAY,match_day);
+                    match_values.put(DatabaseContract.ScoresEntry.MATCH_ID,match_id);
+                    match_values.put(DatabaseContract.ScoresEntry.DATE_COL,mDate);
+                    match_values.put(DatabaseContract.ScoresEntry.TIME_COL,mTime);
+                    match_values.put(DatabaseContract.ScoresEntry.HOME_COL,Home);
+                    match_values.put(DatabaseContract.ScoresEntry.AWAY_COL,Away);
+                    match_values.put(DatabaseContract.ScoresEntry.HOME_GOALS_COL,Home_goals);
+                    match_values.put(DatabaseContract.ScoresEntry.AWAY_GOALS_COL,Away_goals);
+                    match_values.put(DatabaseContract.ScoresEntry.LEAGUE_COL,League);
+                    match_values.put(DatabaseContract.ScoresEntry.MATCH_DAY,match_day);
                     //log spam
 
                     //Log.v(LOG_TAG,match_id);
@@ -273,5 +276,14 @@ public class myFetchService extends IntentService
         }
 
     }
+
+    private void updateWidgets() {
+        Context context = getApplicationContext();
+        // Setting the package ensures that only components in our app will receive the broadcast
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                .setPackage(context.getPackageName());
+        context.sendBroadcast(dataUpdatedIntent);
+    }
+
 }
 

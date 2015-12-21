@@ -3,32 +3,50 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="4dp"
-    android:background="@drawable/list_item"
+    android:background="@drawable/back"
+    android:padding="@dimen/widget_margin"
+    android:id="@+id/widget"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:background="@color/green13"
+        >
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_launcher"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="Last Match Played"
+            android:textSize="10sp"
+            android:paddingStart="2dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            />
+
+    </LinearLayout>
     <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
         >
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/home_crest"
-                android:contentDescription="@string/home_logo_desc"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="@dimen/TeamNames"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:text="@string/test_text"
-                android:id="@+id/home_name"/>
+                android:id="@+id/widget_home_team"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -42,16 +60,9 @@
                 android:text="@string/test_text"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:textSize="@dimen/Score"
-                android:id="@+id/score_textview"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/test_text"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:id="@+id/data_textview"/>
+                android:id="@+id/widget_score"/>
 
         </LinearLayout>
         <LinearLayout
@@ -59,27 +70,17 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/away_crest"
-                android:contentDescription="@string/away_logo_desc"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/test_text"
+                android:textColor="@color/black"
                 android:textSize="@dimen/TeamNames"
-                android:id="@+id/away_name"/>
+                android:id="@+id/widget_away_team"/>
         </LinearLayout>
     </LinearLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/details_fragment_container">
-    </FrameLayout>
 </LinearLayout>
 
 
