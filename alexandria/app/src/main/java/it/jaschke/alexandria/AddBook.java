@@ -42,7 +42,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private String mScanContents = "Contents:";
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    // TODO: 6/12/2015  check for only bar codes isibn 13
+    // TODO: 6/12/2015  check for only bar codes isbn 13
 
     public AddBook(){
     }
